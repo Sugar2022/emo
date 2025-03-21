@@ -1,0 +1,263 @@
+/* Reset styles to ensure consistent rendering */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow-x: hidden;
+  }
+  
+  /* Force the gradient to cover the entire window and be fixed */
+  body {
+    background: linear-gradient(120deg, #e0f7fa 0%, #fff9c4 100%);
+    background-attachment: fixed;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+  
+  /* Container to center the card - using flexbox */
+  .breathing-page-container {
+    width: 100vw; /* Force full viewport width */
+    min-height: 100vh; /* Force full viewport height */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    box-sizing: border-box;
+    margin: 0; /* Remove any default margins */
+    position: absolute; /* Force positioning */
+    top: 0;
+    left: 0;
+  }
+  
+  /* The card container */
+  .breathing-container {
+    max-width: 1200px; 
+    width: 90%; 
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    padding: 40px;
+    text-align: center;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+    margin: 0 auto;
+    position: relative; 
+    overflow: visible;
+  }
+  
+  .breathing-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+  }
+  
+  /* Home Button (absolute in top-left corner) */
+  .home-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 6px 10px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    color: #333;
+    transition: all 0.2s ease;
+  }
+  
+  .home-button:hover {
+    background-color: #f0f0f0;
+    border-color: #bbb;
+  }
+  
+  /* Fade-in animation for the phase display */
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+  }
+  
+  /* Header */
+  .breathing-container h1 {
+    font-size: 2.2rem;
+    color: #2e7d32;
+    margin-bottom: 30px;
+    font-weight: 600;
+    position: relative;
+    padding-bottom: 12px;
+  }
+  
+  .breathing-container h1::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background: linear-gradient(90deg, #2e7d32, #81c784);
+    border-radius: 3px;
+  }
+  
+  /* Exercise selector */
+  .exercise-selector {
+    margin: 25px 0;
+  }
+  
+  .exercise-selector label {
+    display: inline-block;
+    margin-right: 10px;
+    font-weight: 500;
+    color: #555;
+  }
+  
+  .exercise-selector select {
+    padding: 10px 15px;
+    font-size: 1rem;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  }
+  
+  .exercise-selector select:hover {
+    border-color: #aad;
+  }
+  
+  .exercise-selector select:focus {
+    outline: none;
+    border-color: #2e7d32;
+    box-shadow: 0 0 0 2px rgba(46, 125, 50, 0.2);
+  }
+  
+  /* Exercise description */
+  .exercise-description {
+    background-color: rgba(46, 125, 50, 0.06);
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 25px;
+  }
+  
+  .exercise-description p {
+    font-size: 1.1rem;
+    color: #555;
+    margin: 0;
+    line-height: 1.5;
+  }
+  
+  /* Controls */
+  .controls {
+    margin: 25px 0;
+  }
+  
+  .start-btn,
+  .stop-btn {
+    padding: 12px 30px;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .start-btn {
+    background-color: #2e7d32;
+    color: #fff;
+  }
+  
+  .start-btn:hover {
+    background-color: #256b27;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+  
+  .stop-btn {
+    background-color: #e53935;
+    color: #fff;
+  }
+  
+  .stop-btn:hover {
+    background-color: #c62828;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+  
+  /* Breathing phase display */
+  .breathing-phase {
+    margin-top: 30px;
+  }
+  
+  .breathing-phase h2 {
+    font-size: 2.2rem;
+    margin-bottom: 5px;
+    color: #333;
+    font-weight: 600;
+  }
+  
+  .breathing-phase p {
+    font-size: 1.3rem;
+    margin-bottom: 25px;
+    color: #666;
+  }
+  
+  /* Animated circle */
+  .breathing-circle {
+    width: 200px;
+    height: 200px;
+    margin: 0 auto;
+    border-radius: 50%;
+    transition: transform 1s ease-in-out, background-color 1s ease-in-out;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    position: relative;
+  }
+  
+  .breathing-circle::after {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: -8px;
+    right: -8px;
+    bottom: -8px;
+    border-radius: 50%;
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    z-index: -1;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 600px) {
+    .breathing-container {
+      padding: 25px 20px;
+      width: 95%;
+    }
+  
+    .breathing-container h1 {
+      font-size: 1.8rem;
+    }
+  
+    .breathing-phase h2 {
+      font-size: 1.8rem;
+    }
+  
+    .breathing-circle {
+      width: 160px;
+      height: 160px;
+    }
+  }
+  

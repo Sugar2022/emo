@@ -393,10 +393,11 @@ export default function Home() {
         <div className="therapy-side">
           <h2>Explore Therapies</h2>
           <div className="therapy-grid">
-            <div className="therapy-card">
-              <img src={breathingImg} alt="Breathing"/>
+            {/* Breathing Exercises: Clicking this card navigates to the breathing exercise page */}
+            <Link to="/breathing" className="therapy-card">
+              <img src={breathingImg} alt="Breathing" />
               <p>Breathing Exercises</p>
-            </div>
+            </Link>
             <div className="therapy-card">
               <img src={musicImg} alt="Music"/>
               <p>Music Therapy</p>

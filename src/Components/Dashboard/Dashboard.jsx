@@ -38,6 +38,9 @@ const Dashboard = () => {
   const [dailyLogs, setDailyLogs] = useState([]);
   const [moodSummary, setMoodSummary] = useState("");
   const [sleepData, setSleepData] = useState({ below6: 0, between6and8: 0, above8: 0 });
+  const [moodChartData, setMoodChartData] = useState({});
+  const [sleepChartData, setSleepChartData] = useState({});
+  const [emotionsChartData, setEmotionsChartData] = useState({});
 
   useEffect(() => {
     onAuthStateChanged(auth, async (user) => {
@@ -45,7 +48,7 @@ const Dashboard = () => {
         navigate("/login");
       } else {
         setUid(user.uid);
-        // Fetch username
+        // Fetch username from Firebase
         const userRef = doc(db, "users", user.uid);
         const userSnap = await getDoc(userRef);
         if (userSnap.exists()) {
@@ -76,25 +79,21 @@ const Dashboard = () => {
     }
   };
 
-  // Process mood data to get labels and dataset for chart
+  // Process mood data to set up the line chart and pie chart for emotions
   const processMoodData = (logs) => {
     const labels = logs.map((log) => log.date);
     const moodValues = logs.map((log) => log.mood);
-    // Calculate the most frequent mood
+    // Create a frequency distribution for emotions/moods
     const freq = {};
     moodValues.forEach((m) => {
       freq[m] = (freq[m] || 0) + 1;
     });
-    let mostFreqMood = null;
-    let maxCount = 0;
-    Object.entries(freq).forEach(([m, count]) => {
-      if (count > maxCount) {
-        maxCount = count;
-        mostFreqMood = m;
-      }
-    });
-    setMoodSummary(mostFreqMood ? `Your most recorded mood is: ${mostFreqMood}` : "");
+    // Set the summary based on the most frequent mood
+    const sortedEmotions = Object.entries(freq).sort((a, b) => b[1] - a[1]);
+    const topEmotion = sortedEmotions.length > 0 ? sortedEmotions[0][0] : "";
+    setMoodSummary(topEmotion ? `Your most recorded mood is: ${topEmotion}` : "");
 
+    // Line chart: Mood over time
     setMoodChartData({
       labels,
       datasets: [
@@ -107,9 +106,20 @@ const Dashboard = () => {
         },
       ],
     });
+
+    // Pie chart: Emotion distribution
+    setEmotionsChartData({
+      labels: Object.keys(freq),
+      datasets: [
+        {
+          data: Object.values(freq),
+          backgroundColor: ["#4caf50", "#ff9800", "#f44336", "#2196f3", "#9c27b0"],
+        },
+      ],
+    });
   };
 
-  // Process sleep data into three categories
+  // Process sleep data into three categories for the bar chart
   const processSleepData = (logs) => {
     let below6 = 0, between6and8 = 0, above8 = 0;
     logs.forEach((log) => {
@@ -131,12 +141,11 @@ const Dashboard = () => {
     });
   };
 
-  // Chart state
-  const [moodChartData, setMoodChartData] = useState({});
-  const [sleepChartData, setSleepChartData] = useState({});
-
   return (
     <div className="dashboard-container">
+      <button className="back-button" onClick={() => navigate("/home")}>
+        &#8592; Back
+      </button>
       <header className="dashboard-header">
         <h1>{username}'s Dashboard</h1>
       </header>
@@ -159,9 +168,36 @@ const Dashboard = () => {
             <p>No sleep data available.</p>
           )}
           <p className="summary-text">
-            Out of {dailyLogs.length} days,{" "}
-            {sleepData.below6} days below 6 hrs, {sleepData.between6and8} days between 6-8 hrs, and {sleepData.above8} days above 8 hrs.
+            Out of {dailyLogs.length} days, {sleepData.below6} days below 6 hrs, {sleepData.between6and8} days between 6-8 hrs, and {sleepData.above8} days above 8 hrs.
           </p>
+        </div>
+        <div className="chart-card">
+          <h3>Emotion Distribution</h3>
+          {emotionsChartData.labels ? (
+            <Pie data={emotionsChartData} />
+          ) : (
+            <p>No emotion data available.</p>
+          )}
+        </div>
+      </div>
+
+      <div className="details-container">
+        <div className="timeline">
+          <h3>Daily Logs Timeline</h3>
+          <div className="timeline-content">
+            {dailyLogs.length > 0 ? (
+              dailyLogs.map((log, index) => (
+                <div key={index} className="timeline-item">
+                  <div className="timeline-date">{log.date}</div>
+                  <div className="timeline-info">
+                    Mood: {log.mood} | Sleep: {log.sleepHours} hrs
+                  </div>
+                </div>
+              ))
+            ) : (
+              <p>No daily logs available.</p>
+            )}
+          </div>
         </div>
       </div>
     </div>
