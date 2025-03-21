@@ -6,6 +6,9 @@ import SignUp from "./Components/SignUp/SignUp";
 import Login from "./Components/Login/Login";
 import Home from "./Components/Home/Home";
 import OnboardingWizard from "./Components/OnboardingWizard/OnboardingWizard";
+import Cbt from "./Components/Cbt/Cbt";
+import Dashboard from "./Components/Dashboard/Dashboard";
+
 
 function App() {
   return (
@@ -17,15 +20,17 @@ function App() {
         {/* Auth pages */}
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
-
+        
         {/* Onboarding */}
         <Route path="/onboarding" element={<OnboardingWizard />} />
-
-        {/* Main application page */}
+        
+        {/* Main application pages */}
         <Route path="/home" element={<Home />} />
-
+        <Route path="/cbt" element={<Cbt />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        
         {/* Redirect any unknown route to MainPage */}
-        <Route path="*" element={<Navigate to="/" />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>
   );

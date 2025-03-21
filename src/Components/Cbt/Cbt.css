@@ -1,0 +1,111 @@
+/* src/Components/Cbt/Cbt.css */
+
+/* Full-screen pastel green background, no scrolling */
+.cbt-container {
+    width: 100vw;
+    height: 100vh;
+    background-color: #cde6d0; /* pastel green */
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* no scroll */
+  }
+  
+  /* Navbar */
+  .cbt-navbar {
+    background: #f9f9f9;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .cbt-title {
+    margin: 0;
+    color: #2e7d32;
+    font-size: 1.6rem;
+  }
+  .cbt-navbar nav a {
+    margin-left: 20px;
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+  }
+  .cbt-navbar nav a:hover {
+    color: #2e7d32;
+  }
+  
+  /* Main content area */
+  .cbt-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Timer box */
+  .cbt-timer-box {
+    background: #fff;
+    padding: 10px 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  }
+  .cbt-timer-box p {
+    margin: 0;
+    font-size: 1.2rem;
+    color: #333;
+  }
+  .cbt-timer {
+    font-weight: bold;
+    color: #2e7d32;
+  }
+  
+  /* Webcam */
+  .cbt-webcam-wrapper {
+    width: 480px; /* adjust as needed */
+    height: 360px;
+    background: #eee;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+  }
+  .cbt-webcam {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  /* Buttons row */
+  .cbt-buttons {
+    display: flex;
+    gap: 20px;
+  }
+  .record-btn,
+  .end-btn {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  /* Record button (green) */
+  .record-btn {
+    background-color: #4caf50;
+    color: #fff;
+  }
+  .record-btn:hover {
+    background-color: #43a047;
+  }
+  
+  /* End button (red) */
+  .end-btn {
+    background-color: #e53935;
+    color: #fff;
+  }
+  .end-btn:hover {
+    background-color: #d32f2f;
+  }
+  

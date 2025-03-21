@@ -4,6 +4,8 @@ import { auth, db } from "../../firebase-config";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { doc, setDoc, getDoc, collection, getDocs } from "firebase/firestore";
 import "./Home.css";
+import { Link } from "react-router-dom";
+
 
 // Mood images
 import emo1 from "../../assets/emo/1.png";
@@ -339,7 +341,7 @@ export default function Home() {
         </div>
         <div className="nav-right">
           <button onClick={()=>navigate("/home")}>Home</button>
-          <button onClick={()=>navigate("/analysis")}>Analysis</button>
+          <button onClick={()=>navigate("/Dashboard")}>Dashboard</button>
           <button onClick={handleLogout}>Logout</button>
         </div>
       </div>
@@ -399,10 +401,12 @@ export default function Home() {
               <img src={musicImg} alt="Music"/>
               <p>Music Therapy</p>
             </div>
-            <div className="therapy-card">
-              <img src={cbtImg} alt="CBT"/>
-              <p>CBT Therapy</p>
-            </div>
+            {/* Navigate to /cbt when user clicks the CBT card */}
+            <Link to="/cbt" className="therapy-card">
+            <img src={cbtImg} alt="CBT"/>
+            <p>CBT Therapy</p>
+            </Link>
+
             <div className="therapy-card">
               <img src={gamesImg} alt="Games"/>
               <p>Stress Relief Games</p>
