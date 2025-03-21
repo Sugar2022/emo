@@ -1,0 +1,177 @@
+/* src/Components/OnboardingWizard/OnboardingWizard.css */
+
+/* 
+  1. Full-screen overlay for the wizard
+  2. We use a background element to blur the main.png image
+  3. The wizard container is placed on top, crisp
+*/
+.onboarding-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999;
+  
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* 
+    Blurred background image.
+    Adjust the path to your main.png if needed.
+  */
+  .onboarding-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  
+    /* Example absolute path from your environment: */
+    background: url("C:/Users/DELL/OneDrive/Desktop/emotalk/src/assets/main.png")
+      no-repeat center center / cover;
+    filter: blur(5px);
+  
+    z-index: -1;
+  }
+  
+  /* Main wizard container: ~600x600 for a square-ish look */
+  .onboarding-container {
+    position: relative;
+    width: 600px;
+    height: 600px;
+    max-width: 90%;
+    max-height: 90%;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 30px 20px;
+    box-sizing: border-box;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  }
+  
+  /* Step bars row for steps 1..4 */
+  .step-bars {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .step-bar {
+    width: 40px;
+    height: 8px;
+    background-color: #ddd;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+  }
+  
+  .step-bar.active {
+    background-color: #4caf50;
+  }
+  
+  /* Step content container */
+  .step-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+    height: calc(100% - 40px); /* space for step bars */
+  }
+  
+  .step-content h2 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #2e7d32;
+  }
+  
+  .step-content p {
+    margin-bottom: 15px;
+    color: #555;
+  }
+  
+  /* Images for step 1 or 2 if used */
+  .step-image-large {
+    width: 400px;
+    height: 300px;
+    object-fit: cover;
+    margin-bottom: 20px;
+  }
+  
+  .step-image-medium {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    margin-bottom: 20px;
+  }
+  
+  /* Distress slider styling */
+  .distress-slider {
+    width: 80%;
+    margin: 0 auto 10px;
+  }
+  
+  .distress-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .distress-icon {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 5px;
+  }
+  
+  /* Text area for steps 3 and 4 */
+  .text-area {
+    width: 80%;
+    height: 100px;
+    resize: none;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding: 8px;
+    box-sizing: border-box;
+  }
+  
+  /* Buttons row for navigation */
+  .button-row {
+    display: flex;
+    gap: 10px;
+  }
+  
+  /* Basic button styling */
+  button {
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  /* Primary (green) button */
+  .primary-btn {
+    background-color: #4caf50;
+    color: #fff;
+  }
+  
+  .primary-btn:hover {
+    background-color: #43a047;
+  }
+  
+  /* Secondary (gray) button */
+  .secondary-btn {
+    background-color: #e0e0e0;
+    color: #333;
+  }
+  
+  .secondary-btn:hover {
+    background-color: #d5d5d5;
+  }
+  

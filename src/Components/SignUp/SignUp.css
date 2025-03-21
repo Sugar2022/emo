@@ -1,0 +1,116 @@
+/* src/Components/SignUp/SignUp.css */
+
+/* 
+  The overlay covers the entire screen. 
+  We place a separate .background-blur element behind the .signup-container 
+  to blur the background image only, not the form.
+*/
+.signup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden; 
+    z-index: 9999; 
+  }
+  
+  /* 
+    This element uses your local Windows path for the background image. 
+    It applies the blur filter, so only the background is blurred.
+  */
+  .background-blur {
+    position: absolute;
+    top: 0; 
+    left: 0; 
+    right: 0; 
+    bottom: 0;
+  
+    /* Direct path as requested */
+    background: url("C:/Users/DELL/OneDrive/Desktop/emotalk/src/assets/main.png") 
+                no-repeat center center / cover;
+    filter: blur(5px);
+  }
+  
+  /* 
+    The sign-up modal container remains crisp. 
+    We position it in the center above the blurred background.
+  */
+  .signup-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  
+    width: 400px;
+    padding: 30px;
+    border-radius: 8px;
+    background-color: #fff;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  
+    /* No blur applied here, so it's clear. */
+    filter: none;
+  }
+  
+  /* Bold, centered title at the top */
+  .signup-title {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #2e7d32;
+    margin-bottom: 20px;
+  }
+  
+  /* Vertical layout for form fields */
+  .signup-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  /* Input fields styling */
+  .signup-input {
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  /* Sign Up button styling */
+  .signup-button {
+    padding: 10px;
+    font-size: 1rem;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .signup-button:hover {
+    background-color: #43a047;
+  }
+  
+  /* Error message in red */
+  .error-message {
+    margin-top: 15px;
+    color: red;
+    font-size: 0.9rem;
+  }
+  
+  /* Bottom text for "Already have an account?" */
+  .toggle-text {
+    margin-top: 15px;
+    font-size: 0.9rem;
+    color: #333;
+  }
+  
+  .toggle-text span {
+    color: #4caf50;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+  

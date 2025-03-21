@@ -1,0 +1,129 @@
+/* src/Components/Login/Login.css */
+
+/* 
+  Full-screen overlay to cover the page, 
+  same approach as SignUp with a 2-element layout:
+  1) .login-background => has the image + blur
+  2) .login-container => crisp modal
+*/
+.login-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999;
+  
+    /* 
+      We use flex to center the .login-container 
+      but place .login-background behind it 
+      (via z-index).
+    */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* 
+    The blurred background image. 
+    Because we're on a separate /login route, 
+    we must re-load the same main.png image 
+    to mimic the main page behind it.
+  */
+  .login-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  
+    /* 
+      Replace this path with your local path if needed.
+      Example: 
+        background: url("C:/Users/DELL/OneDrive/Desktop/emotalk/src/assets/main.png")
+          no-repeat center center / cover;
+    */
+    background: url("C:/Users/DELL/OneDrive/Desktop/emotalk/src/assets/main.png")
+      no-repeat center center / cover;
+  
+    /* Blur the background behind the login form */
+    filter: blur(5px);
+  
+    /* 
+      Ensure this is behind the login-container 
+      but still in front of the page.
+    */
+    z-index: -1;
+  }
+  
+  /* Crisp login modal on top of the blurred background */
+  .login-container {
+    position: relative;
+    width: 400px;
+    padding: 30px;
+    border-radius: 8px;
+    background-color: #fff;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+  
+  /* Title styling */
+  .login-title {
+    font-size: 2rem;
+    color: #2e7d32;
+    margin-bottom: 20px;
+  }
+  
+  /* Form container (vertical layout) */
+  .login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  /* Input fields */
+  .login-input {
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  /* Log In button */
+  .login-button {
+    padding: 10px;
+    font-size: 1rem;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .login-button:hover {
+    background-color: #43a047;
+  }
+  
+  /* Inline error message styling */
+  .error-message {
+    margin-top: 15px;
+    color: red;
+    font-size: 0.9rem;
+  }
+  
+  /* Toggle text for bottom link */
+  .toggle-text {
+    margin-top: 15px;
+    font-size: 0.9rem;
+    color: #333;
+  }
+  
+  .toggle-text span {
+    color: #4caf50;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+  
