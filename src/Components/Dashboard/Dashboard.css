@@ -26,7 +26,7 @@
 .dashboard-header {
     text-align: center;
     margin-top: 150px;       /* Added top margin */
-    padding-top: 150px;      /* Added top padding */
+    padding-top: 200px;      /* Added top padding */
     margin-bottom: 30px;
     position: relative;
 }
@@ -80,7 +80,8 @@
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     padding: 20px;
-    width: 600px;
+    padding-left: 100px; /* Added left padding */
+    width: 800px; /* Increased width from 600px to 800px */
     max-width: 90%;
     overflow-y: auto;
     max-height: 300px;
@@ -98,8 +99,8 @@
 }
 
 .timeline-item {
-    padding: 10px;
-    border-left: 3px solid #4caf50;
+    padding: 50px;
+    border-left: 15px solid #4caf50;
     background: #f9f9f9;
     border-radius: 4px;
 }

@@ -17,6 +17,8 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 import "./Dashboard.css";
 
 ChartJS.register(
@@ -41,6 +43,7 @@ const Dashboard = () => {
   const [moodChartData, setMoodChartData] = useState({});
   const [sleepChartData, setSleepChartData] = useState({});
   const [emotionsChartData, setEmotionsChartData] = useState({});
+  const [topEmotions, setTopEmotions] = useState([]);
 
   useEffect(() => {
     onAuthStateChanged(auth, async (user) => {
@@ -69,29 +72,30 @@ const Dashboard = () => {
       logsSnapshot.forEach((docItem) => {
         logs.push(docItem.data());
       });
-      // Sort logs by date
+      // Sort logs by date ascending
       logs.sort((a, b) => new Date(a.date) - new Date(b.date));
       setDailyLogs(logs);
       processMoodData(logs);
       processSleepData(logs);
+      processEmotionData(logs);
     } catch (error) {
       console.error("Error fetching daily logs:", error);
     }
   };
 
-  // Process mood data to set up the line chart and pie chart for emotions
+  // Process mood data for line chart and mood summary
   const processMoodData = (logs) => {
     const labels = logs.map((log) => log.date);
     const moodValues = logs.map((log) => log.mood);
-    // Create a frequency distribution for emotions/moods
+    // Create a frequency distribution for moods
     const freq = {};
     moodValues.forEach((m) => {
       freq[m] = (freq[m] || 0) + 1;
     });
-    // Set the summary based on the most frequent mood
+    // Determine the most frequent mood
     const sortedEmotions = Object.entries(freq).sort((a, b) => b[1] - a[1]);
-    const topEmotion = sortedEmotions.length > 0 ? sortedEmotions[0][0] : "";
-    setMoodSummary(topEmotion ? `Your most recorded mood is: ${topEmotion}` : "");
+    const topMood = sortedEmotions.length > 0 ? sortedEmotions[0][0] : "";
+    setMoodSummary(topMood ? `Your most recorded mood is: ${topMood}` : "");
 
     // Line chart: Mood over time
     setMoodChartData({
@@ -106,20 +110,9 @@ const Dashboard = () => {
         },
       ],
     });
-
-    // Pie chart: Emotion distribution
-    setEmotionsChartData({
-      labels: Object.keys(freq),
-      datasets: [
-        {
-          data: Object.values(freq),
-          backgroundColor: ["#4caf50", "#ff9800", "#f44336", "#2196f3", "#9c27b0"],
-        },
-      ],
-    });
   };
 
-  // Process sleep data into three categories for the bar chart
+  // Process sleep data for bar chart
   const processSleepData = (logs) => {
     let below6 = 0, between6and8 = 0, above8 = 0;
     logs.forEach((log) => {
@@ -141,13 +134,73 @@ const Dashboard = () => {
     });
   };
 
+  // Process emotion data for pie chart and top emotions text
+  const processEmotionData = (logs) => {
+    const emotionCount = {};
+    logs.forEach((log) => {
+      if (log.emotions && Array.isArray(log.emotions)) {
+        log.emotions.forEach((em) => {
+          emotionCount[em] = (emotionCount[em] || 0) + 1;
+        });
+      }
+    });
+    const sortedEmotions = Object.entries(emotionCount)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 3);
+    setTopEmotions(sortedEmotions.map(([emotion, count]) => `${emotion}: ${count} times`));
+    setEmotionsChartData({
+      labels: sortedEmotions.map(([emotion]) => emotion),
+      datasets: [
+        {
+          data: sortedEmotions.map(([_, count]) => count),
+          backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
+        },
+      ],
+    });
+  };
+
+  // Function to generate PDF report of the dashboard
+  const generatePDF = () => {
+    const input = document.getElementById("dashboard-report");
+    html2canvas(input)
+      .then((canvas) => {
+        const imgData = canvas.toDataURL("image/png");
+        const pdf = new jsPDF("p", "mm", "a4");
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+        pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+        pdf.save("dashboard.pdf");
+      })
+      .catch((error) => {
+        console.error("Error generating PDF:", error);
+      });
+  };
+
   return (
-    <div className="dashboard-container">
+    <div id="dashboard-report" className="dashboard-container">
+      {/* Back button navigates to home page */}
       <button className="back-button" onClick={() => navigate("/home")}>
         &#8592; Back
       </button>
       <header className="dashboard-header">
         <h1>{username}'s Dashboard</h1>
+        <button
+          className="pdf-button"
+          onClick={generatePDF}
+          style={{
+            position: "absolute",
+            top: "10px",
+            right: "10px",
+            padding: "8px 12px",
+            border: "none",
+            borderRadius: "4px",
+            background: "#2e7d32",
+            color: "#fff",
+            cursor: "pointer",
+          }}
+        >
+          PDF
+        </button>
       </header>
 
       <div className="charts-container">
@@ -178,27 +231,30 @@ const Dashboard = () => {
           ) : (
             <p>No emotion data available.</p>
           )}
+          {topEmotions.length > 0 && (
+            <p className="summary-text">{topEmotions.join(", ")}</p>
+          )}
         </div>
       </div>
 
-      <div className="details-container">
-        <div className="timeline">
-          <h3>Daily Logs Timeline</h3>
-          <div className="timeline-content">
-            {dailyLogs.length > 0 ? (
-              dailyLogs.map((log, index) => (
-                <div key={index} className="timeline-item">
-                  <div className="timeline-date">{log.date}</div>
-                  <div className="timeline-info">
-                    Mood: {log.mood} | Sleep: {log.sleepHours} hrs
-                  </div>
-                </div>
-              ))
-            ) : (
-              <p>No daily logs available.</p>
-            )}
-          </div>
-        </div>
+      {/* Timeline */}
+      <div className="timeline-container">
+        <h3>Daily Logs</h3>
+        {dailyLogs.length > 0 ? (
+          <ul className="timeline">
+            {dailyLogs.map((log, index) => (
+              <li key={index}>
+                <strong>{log.date}</strong> - Mood: {log.mood}, Sleep: {log.sleepHours} hrs
+                <br />
+                Emotions: {log.emotions.join(", ")}
+                <br />
+                Journal: "{log.journal}"
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>No daily logs available.</p>
+        )}
       </div>
     </div>
   );
